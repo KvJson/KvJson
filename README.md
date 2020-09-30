@@ -101,5 +101,43 @@ Now see the keys, `id`, `name`, `username`, `enmail`, `phone`, and `website` app
 ````
 Order is preserved.
 
+## Benchmarking
+When serializing 10000 objects, 42% improvement observed with `KvJson` compared to `System.Text.Json.JsonSerializer`
+
+````csharp
+class Program
+{
+        static void Main(string[] args)
+        {                                    
+            var people = Enumerable.Range(0, 10000)
+                .Select(x => new Person
+                {
+                    Id = x, Name = Guid.NewGuid().ToString(), DateOfBirth = DateTime.Now
+                });
+            var lengthWithKvJson = new Serializer<Person>().Serialize(people).Length;
+            Console.WriteLine($"Length when serialized with KvJson: {lengthWithKvJson}");
+            var lengthWithSystemTextJson = System.Text.Json.JsonSerializer.Serialize(people).Length;
+            Console.WriteLine($"Length when serialized with System.Text.Json: {lengthWithSystemTextJson}");
+            Console.WriteLine($"Improvement: {100 * lengthWithKvJson / (double)(lengthWithKvJson + lengthWithSystemTextJson)}%");
+            Console.ReadKey();
+
+        }
+}
+class Person
+{
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
+        public override string ToString() => Id + Name + DateOfBirth;
+}
+````
+Output
+````
+Length when serialized with `KvJson`: 797774
+Length when serialized with` System.Text.Json`: 1077834
+Improvement: 42.53415425824586%
+````
+
 ## Limitations
 Currently onle simple JSON is supported, i.e. NO NESTED JSON SUPPORT.
