@@ -23,3 +23,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish Nuget
+      uses: brandedoutcast/publish-nuget@v2.5.5
+      PROJECT_FILE_PATH: KvJson/KvJson.csproj
+      NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      
