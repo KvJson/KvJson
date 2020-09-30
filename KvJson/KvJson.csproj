@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Description>A single yet powerful JSON Compression Library</Description>
+    <PackageProjectUrl>https://kvjson.github.io/KvJson/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KvJson/KvJson</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
